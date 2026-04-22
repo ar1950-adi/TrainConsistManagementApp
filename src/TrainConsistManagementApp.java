@@ -39,6 +39,7 @@ public class TrainConsistManagementApp {
         countTotalSeats();
         validateTrainAndCargoCodes();
         checkGoodsBogieSafetyCompliance();
+        compareLoopAndStreamPerformance();
         System.out.println("Program continues.");
     }
 
@@ -182,5 +183,29 @@ public class TrainConsistManagementApp {
                         || "Petroleum".equals(bogie.cargo()));
 
         System.out.println("Goods bogie safety compliant: " + safetyCompliant);
+    }
+
+    private static void compareLoopAndStreamPerformance() {
+        List<Bogie> testBogies = createOperationalBogies();
+        List<Bogie> loopFiltered = new ArrayList<>();
+
+        long loopStart = System.nanoTime();
+        for (Bogie bogie : testBogies) {
+            if (bogie.capacity() > 40) {
+                loopFiltered.add(bogie);
+            }
+        }
+        long loopEnd = System.nanoTime();
+
+        long streamStart = System.nanoTime();
+        List<Bogie> streamFiltered = testBogies.stream()
+                .filter(bogie -> bogie.capacity() > 40)
+                .toList();
+        long streamEnd = System.nanoTime();
+
+        System.out.println("Loop filtering result: " + loopFiltered);
+        System.out.println("Loop filtering time ns: " + (loopEnd - loopStart));
+        System.out.println("Stream filtering result: " + streamFiltered);
+        System.out.println("Stream filtering time ns: " + (streamEnd - streamStart));
     }
 }
