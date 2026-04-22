@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -14,6 +15,7 @@ public class TrainConsistManagementApp {
         addPassengerBogies(bogies);
         trackUniqueBogieIds();
         manageOrderedConsist();
+        preserveFormationOrder();
         System.out.println("Program continues.");
     }
 
@@ -58,5 +60,17 @@ public class TrainConsistManagementApp {
         consist.removeLast();
 
         System.out.println("Final ordered train consist: " + consist);
+    }
+
+    private static void preserveFormationOrder() {
+        Set<String> formation = new LinkedHashSet<>();
+
+        formation.add("Engine");
+        formation.add("Sleeper");
+        formation.add("Cargo");
+        formation.add("Guard");
+        formation.add("Sleeper");
+
+        System.out.println("LinkedHashSet formation order: " + formation);
     }
 }
