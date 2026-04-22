@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -8,6 +9,13 @@ import java.util.Map;
 import java.util.Set;
 
 public class TrainConsistManagementApp {
+    private record Bogie(String name, String type, int capacity) {
+        @Override
+        public String toString() {
+            return name + "(" + type + ", capacity=" + capacity + ")";
+        }
+    }
+
     public static void main(String[] args) {
         List<String> bogies = new ArrayList<>();
 
@@ -19,7 +27,16 @@ public class TrainConsistManagementApp {
         manageOrderedConsist();
         preserveFormationOrder();
         mapBogieCapacities();
+        sortBogiesByCapacity();
         System.out.println("Program continues.");
+    }
+
+    private static List<Bogie> createPassengerBogies() {
+        List<Bogie> passengerBogies = new ArrayList<>();
+        passengerBogies.add(new Bogie("Sleeper", "Passenger", 72));
+        passengerBogies.add(new Bogie("AC Chair", "Passenger", 78));
+        passengerBogies.add(new Bogie("First Class", "Passenger", 24));
+        return passengerBogies;
     }
 
     private static void addPassengerBogies(List<String> bogies) {
@@ -88,5 +105,13 @@ public class TrainConsistManagementApp {
         for (Map.Entry<String, Integer> entry : bogieCapacities.entrySet()) {
             System.out.println(entry.getKey() + " capacity: " + entry.getValue());
         }
+    }
+
+    private static void sortBogiesByCapacity() {
+        List<Bogie> passengerBogies = createPassengerBogies();
+
+        passengerBogies.sort(Comparator.comparingInt(Bogie::capacity));
+
+        System.out.println("Bogies sorted by capacity: " + passengerBogies);
     }
 }
