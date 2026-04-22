@@ -31,6 +31,7 @@ public class TrainConsistManagementApp {
         sortBogiesByCapacity();
         filterPassengerBogies();
         groupBogiesByType();
+        countTotalSeats();
         System.out.println("Program continues.");
     }
 
@@ -139,5 +140,13 @@ public class TrainConsistManagementApp {
                 .collect(Collectors.groupingBy(Bogie::type));
 
         System.out.println("Bogies grouped by type: " + groupedBogies);
+    }
+
+    private static void countTotalSeats() {
+        int totalSeats = createPassengerBogies().stream()
+                .map(Bogie::capacity)
+                .reduce(0, Integer::sum);
+
+        System.out.println("Total passenger seating capacity: " + totalSeats);
     }
 }
