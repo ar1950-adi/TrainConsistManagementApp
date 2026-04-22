@@ -19,6 +19,9 @@ public class TrainConsistManagementApp {
         }
     }
 
+    private record GoodsBogie(String shape, String cargo) {
+    }
+
     public static void main(String[] args) {
         List<String> bogies = new ArrayList<>();
 
@@ -35,6 +38,7 @@ public class TrainConsistManagementApp {
         groupBogiesByType();
         countTotalSeats();
         validateTrainAndCargoCodes();
+        checkGoodsBogieSafetyCompliance();
         System.out.println("Program continues.");
     }
 
@@ -164,5 +168,19 @@ public class TrainConsistManagementApp {
 
         System.out.println("Train ID " + trainId + " valid: " + trainMatcher.matches());
         System.out.println("Cargo code " + cargoCode + " valid: " + cargoMatcher.matches());
+    }
+
+    private static void checkGoodsBogieSafetyCompliance() {
+        List<GoodsBogie> goodsBogies = List.of(
+                new GoodsBogie("Cylindrical", "Petroleum"),
+                new GoodsBogie("Rectangular", "Coal"),
+                new GoodsBogie("Rectangular", "Machinery")
+        );
+
+        boolean safetyCompliant = goodsBogies.stream()
+                .allMatch(bogie -> !"Cylindrical".equals(bogie.shape())
+                        || "Petroleum".equals(bogie.cargo()));
+
+        System.out.println("Goods bogie safety compliant: " + safetyCompliant);
     }
 }
