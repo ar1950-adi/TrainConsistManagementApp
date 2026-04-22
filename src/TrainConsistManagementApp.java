@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
@@ -32,6 +34,7 @@ public class TrainConsistManagementApp {
         filterPassengerBogies();
         groupBogiesByType();
         countTotalSeats();
+        validateTrainAndCargoCodes();
         System.out.println("Program continues.");
     }
 
@@ -148,5 +151,18 @@ public class TrainConsistManagementApp {
                 .reduce(0, Integer::sum);
 
         System.out.println("Total passenger seating capacity: " + totalSeats);
+    }
+
+    private static void validateTrainAndCargoCodes() {
+        String trainId = "TRN-1234";
+        String cargoCode = "PET-AB";
+
+        Pattern trainPattern = Pattern.compile("TRN-\\d{4}");
+        Pattern cargoPattern = Pattern.compile("PET-[A-Z]{2}");
+        Matcher trainMatcher = trainPattern.matcher(trainId);
+        Matcher cargoMatcher = cargoPattern.matcher(cargoCode);
+
+        System.out.println("Train ID " + trainId + " valid: " + trainMatcher.matches());
+        System.out.println("Cargo code " + cargoCode + " valid: " + cargoMatcher.matches());
     }
 }
