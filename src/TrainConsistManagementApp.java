@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class TrainConsistManagementApp {
     private record Bogie(String name, String type, int capacity) {
@@ -29,6 +30,7 @@ public class TrainConsistManagementApp {
         mapBogieCapacities();
         sortBogiesByCapacity();
         filterPassengerBogies();
+        groupBogiesByType();
         System.out.println("Program continues.");
     }
 
@@ -38,6 +40,14 @@ public class TrainConsistManagementApp {
         passengerBogies.add(new Bogie("AC Chair", "Passenger", 78));
         passengerBogies.add(new Bogie("First Class", "Passenger", 24));
         return passengerBogies;
+    }
+
+    private static List<Bogie> createOperationalBogies() {
+        List<Bogie> operationalBogies = new ArrayList<>(createPassengerBogies());
+        operationalBogies.add(new Bogie("Cargo", "Goods", 40));
+        operationalBogies.add(new Bogie("Petroleum Tanker", "Goods", 55));
+        operationalBogies.add(new Bogie("Guard", "Crew", 2));
+        return operationalBogies;
     }
 
     private static void addPassengerBogies(List<String> bogies) {
@@ -122,5 +132,12 @@ public class TrainConsistManagementApp {
                 .toList();
 
         System.out.println("Passenger bogies with capacity above 60: " + highCapacityBogies);
+    }
+
+    private static void groupBogiesByType() {
+        Map<String, List<Bogie>> groupedBogies = createOperationalBogies().stream()
+                .collect(Collectors.groupingBy(Bogie::type));
+
+        System.out.println("Bogies grouped by type: " + groupedBogies);
     }
 }
