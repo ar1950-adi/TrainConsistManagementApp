@@ -28,6 +28,7 @@ public class TrainConsistManagementApp {
         preserveFormationOrder();
         mapBogieCapacities();
         sortBogiesByCapacity();
+        filterPassengerBogies();
         System.out.println("Program continues.");
     }
 
@@ -113,5 +114,13 @@ public class TrainConsistManagementApp {
         passengerBogies.sort(Comparator.comparingInt(Bogie::capacity));
 
         System.out.println("Bogies sorted by capacity: " + passengerBogies);
+    }
+
+    private static void filterPassengerBogies() {
+        List<Bogie> highCapacityBogies = createPassengerBogies().stream()
+                .filter(bogie -> bogie.capacity() > 60)
+                .toList();
+
+        System.out.println("Passenger bogies with capacity above 60: " + highCapacityBogies);
     }
 }
